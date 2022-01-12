@@ -1,0 +1,5 @@
+spring:
+  sleuth:
+    baggage:
+      local-fields: customField
+      correlation-fields: customField
