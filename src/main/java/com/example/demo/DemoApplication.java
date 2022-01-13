@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @SpringBootApplication
@@ -23,10 +24,8 @@ public class DemoApplication {
     @Bean
     HttpRequestParser sleuthHttpServerRequestParser() {
         return (request, context, span) -> {
-            String headerValue = request.header("customHeader");
-            if (headerValue != null) {
-                BaggageField.create("customField").updateValue(context, headerValue);
-            }
+            String value = Objects.requireNonNullElse(request.header("customHeader"), "Header was not set!");
+            BaggageField.create("customField").updateValue(context, value);
         };
     }
 
